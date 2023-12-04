@@ -1,42 +1,15 @@
-file = open("test.txt", "r")
+file = open("input.txt", "r")
 lines = file.readlines()
 file.close()
-ovrTotal = 0
-cards = {}
-total = 0
-points = 0
-copies = {}
-for line in lines:
-    ogLine = line
-    line = line.replace(line[:4],'')
-    number = line[:3]
-    line = line.replace(line[:3],'')
-    winningNums = line.split('|')[0].split(' ')
-    currentNums = line.split('|')[1].split(' ')
+instances = [1 for _ in lines]  # 1 for each line and index
+for index, line in enumerate(lines):  # 0, "~~~~~~"
+    line = line.split(":")[1]  # only keep right side of colon
+    a, b = line.split("|")  # split into two parts, a and b keep both
+    a, b = a.split(), b.split()  # split into individual numbers
 
-    for cNum in currentNums:
-        currentNums[currentNums.index(cNum)] = currentNums[currentNums.index(cNum)].replace('\n','')
-        cNum = cNum.replace('\n','')
-    cards[lines.index(ogLine)+1] = [winningNums,currentNums]
+    n = len(set(a) & set(b))  # number of common elements
 
-    for card in cards:
-        wins = []
-        winningNums = cards[card][0]
-        for cNum in cards[card][1]:
-            try:
-                if not cards[card][0].index(cNum)==-1:
-                    if (not cNum == ''):
-                        wins.append(cNum)
-            except:
-                pass
-        wins = list(filter(None, wins))
-        # add the next len(wins) to copies
-        num = number.replace(':','')
-        num = num.replace(' ','')
-        num = int(num)
-        copies[num] = [len(wins)]
-    # wins have been gotten
+    for i in range(n):  # for each common element
+        instances[index + i + 1] += instances[index]  # add to next index
 
-    for copy in copies:
-        print(copy)
-print(points)
+print(sum(instances))
