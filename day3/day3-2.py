@@ -122,4 +122,8 @@ for row in rowsArray:
             row = row.replace('*', 'Q')
     print(row)
 print(total)
+if (total == 76504829):
+    print("Correct!")
+else:
+    print("Incorrect!")
 #76504829
